@@ -14,7 +14,8 @@
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "google-spreadsheet": "^3.0.14"
+    "google-spreadsheet": "^3.0.14",
+    "url-exist": "^2.0.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"
