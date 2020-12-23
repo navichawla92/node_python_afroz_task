@@ -3,6 +3,7 @@ const axios = require("axios");
 const urlExist = require("url-exist");
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 const { authJwt } = require("../middleware");
+// Third Party URl
 const API_URL = 'https://jsonplaceholder.typicode.com'
 
 logs.post("/logs", 
@@ -20,6 +21,7 @@ logs.post("/logs",
         });
     }
     try {
+        // pass the google sheet it to GoogleSpreadsheet
         doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEET_ID);
         await doc.useServiceAccountAuth({
             client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -27,6 +29,7 @@ logs.post("/logs",
         });
         doc.loadInfo();
     } catch (errors) {
+        // if any error in google sheet api
         error = {
             message: errors.message,
             name: errors.name
@@ -36,7 +39,8 @@ logs.post("/logs",
         let axiosAlbum = []
         for (let index = 0; index < albums.length; index++) {
             let url = `${API_URL}/albums/${albums[index]}`
-            const checkUrl = await urlExist(url)
+            // check for url exist
+            const checkUrl = await urlExist(url);
             if (checkUrl) {
                 let instance = axios.get(url)
                 axiosAlbum.push(instance)
