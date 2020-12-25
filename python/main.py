@@ -2,8 +2,10 @@ import requests
 from bs4 import BeautifulSoup
 import random
 import pandas as pd
+from collections import Counter
 
 names="james,john,robert,michael,william,david,richard,charles,joseph,thomas,christopher,daniel,paul,mark,donald,george,kenneth,steven,edward,brian,ronald,anthony,kevin,jason,matthew,gary,timothy,jose,larry,jeffrey,frank,scott,eric,stephen,andrew,raymond,gregory,joshua,jerry,dennis,walter,patrick,peter,harold,douglas,henry,carl,arthur,ryan,roger,joe,juan,jack,albert,jonathan,justin,terry,gerald,keith,samuel,willie,ralph,lawrence,nicholas"
+
 
 list_of_names = names.split(',')
 A = ("Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36",
@@ -27,9 +29,9 @@ for name in list_of_names:
         text = info.text.split(' ')
         print(name + ' has ' + text[1] + ' results')
         results.append({
-        'name': name,
-        'count': text[1]
-    })
+            'name': name,
+            'count': text[1]
+        })
 
     # get origin
     names_url = 'https://www.names.org/n/' + name +'/about'
@@ -52,14 +54,7 @@ df.sort_values(by=['count'], axis=0, ascending=True, inplace=True)
 df.to_csv('google_result.csv')
 
 # get Occourance
-occour = {}
-for item in origins_list:
-    if (item):
-        orig = item.get('origin')
-        if occour.get(orig):
-            occour[orig] += 1
-        else:
-            occour[orig] = 1
+occour = Counter([item.get('origin') for item in origins_list])
 
 for item in origins_list:
     item.update({
